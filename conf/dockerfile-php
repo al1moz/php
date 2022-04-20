@@ -1,0 +1,12 @@
+FROM debian:latest
+RUN apt-get update && echo Y | apt-get install php php-cli php-fpm php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath php-soap && apt-get clean \
+&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+COPY overrides.conf /etc/php/7.0/fpm/pool.d/z-overrides.conf
+COPY php-fpm-startup /usr/bin/php-fpm
+COPY php.ini /etc/php/7.4/fpm/php.ini
+COPY www.conf /etc/php/7.4/fpm/pool.d/www.conf
+RUN mkdir /run/php
+
+CMD /usr/bin/php-fpm
+EXPOSE 9000
+
